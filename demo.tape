@@ -74,6 +74,27 @@ Ctrl+b
 Type "JJJ"
 Sleep 500ms
 
+# === Swap panes (prefix Shift+Arrow) ========================================
+# Focus left pane, then swap it right
+Alt+h
+Sleep 400ms
+Type "echo 'I will swap right →'" Enter
+Sleep 500ms
+Ctrl+b
+Shift+Right
+Sleep 600ms
+
+# === Sync panes (prefix e — type in all panes at once) ======================
+Ctrl+b
+Type "e"
+Sleep 400ms
+Type "echo 'synced!'" Enter
+Sleep 800ms
+# Turn sync off
+Ctrl+b
+Type "e"
+Sleep 400ms
+
 # === Kill extra panes (prefix x) ============================================
 Alt+l
 Sleep 300ms
@@ -124,9 +145,33 @@ Sleep 500ms
 Escape
 Type "2"
 Sleep 500ms
-Escape
-Type "1"
+
+# === Swap windows (prefix < / >) ============================================
+# Window 2 is active — move it left to become window 1
+Ctrl+b
+Type "<"
+Sleep 800ms
+
+# === Create a second session and switch ======================================
+Hide
+Type "tmux -L vhsdemo new-session -d -s work" Enter
 Sleep 500ms
+Show
+
+# Session tree (prefix s)
+Ctrl+b
+Type "s"
+Sleep 1200ms
+# Select the other session
+Down
+Sleep 400ms
+Enter
+Sleep 600ms
+
+# Toggle back to last session (prefix S)
+Ctrl+b
+Type "S"
+Sleep 800ms
 
 # === Reload config (prefix r) ===============================================
 Ctrl+b
