@@ -4,6 +4,39 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
+# ── Install dependencies ────────────────────────────────────────────────────
+install_deps() {
+    echo "Checking dependencies..."
+    local installed=() skipped=()
+
+    # tmux
+    if command -v tmux &>/dev/null; then
+        skipped+=("tmux (already installed)")
+    else
+        echo "Installing tmux..."
+        sudo apt-get update -qq && sudo apt-get install -y -qq tmux
+        installed+=("tmux")
+    fi
+
+    # xclip
+    if command -v xclip &>/dev/null; then
+        skipped+=("xclip (already installed)")
+    else
+        echo "Installing xclip..."
+        sudo apt-get update -qq && sudo apt-get install -y -qq xclip
+        installed+=("xclip")
+    fi
+
+    echo ""
+    if [ ${#installed[@]} -gt 0 ]; then
+        echo "Installed: ${installed[*]}"
+    fi
+    if [ ${#skipped[@]} -gt 0 ]; then
+        echo "Skipped:   ${skipped[*]}"
+    fi
+    echo ""
+}
+
 # ── Uninstall ────────────────────────────────────────────────────────────────
 if [[ "${1:-}" == "--uninstall" ]]; then
     echo "Uninstalling tmux-config..."
@@ -24,6 +57,12 @@ if [[ "${1:-}" == "--uninstall" ]]; then
 fi
 
 # ── Install ──────────────────────────────────────────────────────────────────
+
+# Install dependencies if requested
+if [[ "${1:-}" == "--with-deps" ]]; then
+    install_deps
+fi
+
 echo "Installing tmux-config from $REPO_DIR ..."
 
 # Back up and symlink ~/.tmux.conf

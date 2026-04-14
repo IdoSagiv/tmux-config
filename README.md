@@ -15,6 +15,12 @@ cd ~/tmux-config
 The installer symlinks config files into place and installs plugins via TPM.
 Any existing `~/.tmux.conf` is backed up to `~/.tmux.conf.bak.<timestamp>`.
 
+To also install dependencies (tmux, xclip):
+
+```sh
+./install.sh --with-deps
+```
+
 To remove:
 
 ```sh
